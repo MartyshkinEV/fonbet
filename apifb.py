@@ -1,4 +1,4 @@
-print('hi men')
+
 class Sports:
     sports_ids=''
     sports_parentId=''
