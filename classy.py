@@ -1,71 +1,64 @@
+"""Utilities for loading Fonbet JSON payloads and time helpers."""
+
+from __future__ import annotations
+
+import json
+import time
+from pathlib import Path
+from typing import Any
+
+JSON_PATH = Path("json.txt")
+
 
 class Requet:
-    cate=[]
+    """Fetch payload from configured URL and save it to json.txt.
 
+    NOTE: Class name is kept for backward compatibility.
+    """
 
-    def __init__(self):
+    cate: list[Any] = []
+
+    def __init__(self) -> None:
         from configur import url_1
         import requests
-        import os
-        import json
 
-        try:
-            os.remove('json.txt')
-        except:
-            pass
-        resp=requests.get(url_1)
-        j_resp=resp.json()
+        if JSON_PATH.exists():
+            JSON_PATH.unlink()
 
-        with open('json.txt','w') as outfile:
-            json.dump(j_resp, outfile)
+        response = requests.get(url_1)
+        response.raise_for_status()
+        payload = response.json()
+
+        with JSON_PATH.open("w", encoding="utf-8") as outfile:
+            json.dump(payload, outfile)
+
         print("Requet успешно завершил работу!")
 
 
 class Jsn_txt:
-    cate=''
+    """Read a category from json.txt.
 
+    NOTE: Class name is kept for backward compatibility.
+    """
 
-    def __init__(self, categ):
-        import json
-        f = open('json.txt', 'r')  # открыли файл
-        text = json.load(f)  # загнали все из файла в переменную
-        catet=(text[categ])
-        self.cate=catet
-        print(' параметр cate готов')
+    cate: Any = ""
 
+    def __init__(self, categ: str):
+        with JSON_PATH.open("r", encoding="utf-8") as file:
+            text = json.load(file)
+
+        self.cate = text[categ]
+        print(" параметр cate готов")
 
 
 class Tims:
-    ts_nw=''
-    def __init__(self):
-        import time
-        print('определяется время')
-        ts_now = time.time()
-        ts_now = (round(ts_now))
+    """Current unix timestamp rounded to integer.
 
-        self.ts_nw=ts_now
+    NOTE: Class name is kept for backward compatibility.
+    """
 
+    ts_nw: int | str = ""
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    def __init__(self) -> None:
+        print("определяется время")
+        self.ts_nw = round(time.time())

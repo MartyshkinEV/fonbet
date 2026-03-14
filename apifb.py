@@ -1,401 +1,216 @@
+"""Parsing and selection helpers for Fonbet API payload stored in json.txt."""
+
+from __future__ import annotations
+
+from typing import Any
+
+
+def _optional(item: dict[str, Any], key: str, default: Any = "None") -> Any:
+    return item.get(key, default)
+
 
 class Sports:
-    sports_ids=''
-    sports_parentId=''
-    sports_kinds=''
-    sports_sortOrder=''
-    sports_name=''
-    sports_parentIds=''
-    sports_name_tip=''
-
+    sports_ids: list[Any]
+    sports_parentId: list[Any]
+    sports_kinds: list[Any]
+    sports_sortOrder: list[Any]
+    sports_name: list[Any]
+    sports_parentIds: list[Any]
+    sports_name_tip: list[Any]
 
     def __init__(self):
         from classy import Jsn_txt
 
-        categ = 'sports'
+        sports_data = Jsn_txt(categ="sports").cate
 
-        asti = Jsn_txt(categ=categ)
+        self.sports_ids = []
+        self.sports_parentId = []
+        self.sports_kinds = []
+        self.sports_sortOrder = []
+        self.sports_name = []
+        self.sports_parentIds = []
+        self.sports_name_tip = []
 
-
-        sp_id=[]
-        parentId=[]
-        kind=[]
-        sortOrder=[]
-        name=[]
-        parentIds=[]
-        name_tip=[]
-        for astd in asti.cate:
-
-            sport_ids=astd['id']
-            sp_id.append(sport_ids)
-            try:
-              parentId.append(astd['parentId'])
-
-            except:
-                parentId.append('None')
-            try:
-                kind.append(astd['kind'])
-            except:
-                kind.append('None')
-            try:
-                sortOrder.append(astd['sortOrder'])
-            except:
-                sortOrder.append('None')
-
-            try:
-                name.append(astd['name'])
-            except:
-                name.append('None')
-            try:
-                parentIds.append(astd['parentIds'])
-            except:
-                parentIds.append('None')
-            try:
-                name_tip.append((str(astd['name']).split('.'))[0])
-            except:
-                name_tip.append('None')
-
-
-
-        self.sports_ids=sp_id
-        self.sports_parentId=parentId
-        self.sports_kinds=kind
-        self.sports_sortOrder=sortOrder
-        self.sports_name=name
-        self.sports_parentIds=parentIds
-        self.sports_name_tip=name_tip
-
-
+        for sport in sports_data:
+            self.sports_ids.append(sport["id"])
+            self.sports_parentId.append(_optional(sport, "parentId"))
+            self.sports_kinds.append(_optional(sport, "kind"))
+            self.sports_sortOrder.append(_optional(sport, "sortOrder"))
+            self.sports_name.append(_optional(sport, "name"))
+            self.sports_parentIds.append(_optional(sport, "parentIds"))
+            self.sports_name_tip.append(str(_optional(sport, "name", "None")).split(".")[0])
 
 
 class Event:
-    event_name = ""
-    event_team1 = ""
-    event_team1Id = ""
-    event_statisticsType = ""
-    event_team2 = ""
-    event_specialTableId = ""
-    event_team2Id = ""
-    event_startTime = ""
-    event_kind = ""
-    event_state = ""
-    event_parentId = ""
-    event_priority = ""
-    event_sportId = ""
-    event_id = ""
-    event_tv = ""
-    event_info = ""
-    event_notMatch = ""
-    event_place = ""
-    event_level = ""
-    event_rootKind = ""
-    event_sortOrder = ""
-    event_num = ""
-
-
+    event_name: list[Any]
+    event_team1: list[Any]
+    event_team1Id: list[Any]
+    event_statisticsType: list[Any]
+    event_team2: list[Any]
+    event_specialTableId: list[Any]
+    event_team2Id: list[Any]
+    event_startTime: list[Any]
+    event_kind: list[Any]
+    event_state: list[Any]
+    event_parentId: list[Any]
+    event_priority: list[Any]
+    event_sportId: list[Any]
+    event_id: list[Any]
+    event_tv: list[Any]
+    event_info: list[Any]
+    event_notMatch: list[Any]
+    event_place: list[Any]
+    event_level: list[Any]
+    event_rootKind: list[Any]
+    event_sortOrder: list[Any]
+    event_num: list[Any]
 
     def __init__(self):
         from classy import Jsn_txt
-        categ = 'events'
 
-        eva = Jsn_txt(categ=categ)
+        events_data = Jsn_txt(categ="events").cate
 
+        self.event_id = []
+        self.event_name = []
+        self.event_num = []
+        self.event_notMatch = []
+        self.event_parentId = []
+        self.event_team1 = []
+        self.event_statisticsType = []
+        self.event_kind = []
+        self.event_rootKind = []
+        self.event_place = []
+        self.event_priority = []
+        self.event_specialTableId = []
+        self.event_sportId = []
+        self.event_team2 = []
+        self.event_team1Id = []
+        self.event_startTime = []
+        self.event_level = []
+        self.event_tv = []
+        self.event_team2Id = []
+        self.event_sortOrder = []
+        self.event_info = []
+        self.event_state = []
 
-        xkkeys=[]
-        place = []
-        id = []
-        statisticsType = []
-        team1 = []
-        name = []
-        specialTableId = []
-        team2 = []
-        team1Id = []
-        parentId = []
-        num = []
-        startTime = []
-        level = []
-        priority = []
-        state = []
-        team2Id = []
-        rootKind = []
-        sportId = []
-        sortOrder = []
-        kind = []
-        notMatch = []
-        info = []
-        tv = []
-
-        for evasa in eva.cate:
-            try:
-                sportId.append(evasa["sportId"])
-            except:
-                sportId.append("None")
-            try:
-                id.append(evasa["id"])
-            except:
-                id.append("None")
-            try:
-                state.append(evasa["state"])
-            except:
-                state.append("None")
-            try:
-                parentId.append(evasa["parentId"])
-            except:
-                parentId.append("None")
-            try:
-                tv.append(evasa["tv"])
-            except:
-                tv.append("None")
-            try:
-                team1Id.append(evasa["team1Id"])
-            except:
-                team1Id.append("None")
-            try:
-                sortOrder.append(evasa["sortOrder"])
-            except:
-                sortOrder.append("None")
-            try:
-                info.append(evasa["info"])
-            except:
-                info.append("None")
-            try:
-                notMatch.append(evasa["notMatch"])
-            except:
-                notMatch.append("None")
-            try:
-                statisticsType.append(evasa["statisticsType"])
-            except:
-                statisticsType.append("None")
-            try:
-                priority.append(evasa["priority"])
-            except:
-                priority.append("None")
-            try:
-                team2.append(evasa["team2"])
-            except:
-                team2.append("None")
-            try:
-                startTime.append(evasa["startTime"])
-            except:
-                startTime.append("None")
-            try:
-                num.append(evasa["num"])
-            except:
-                num.append("None")
-            try:
-                level.append(evasa["level"])
-            except:
-                level.append("None")
-            try:
-                kind.append(evasa["kind"])
-            except:
-                kind.append("None")
-            try:
-                rootKind.append(evasa["rootKind"])
-            except:
-                rootKind.append("None")
-            try:
-                team1.append(evasa["team1"])
-            except:
-                team1.append("None")
-            try:
-                specialTableId.append(evasa["specialTableId"])
-            except:
-                specialTableId.append("None")
-            try:
-                team2Id.append(evasa["team2Id"])
-            except:
-                team2Id.append("None")
-            try:
-                name.append(evasa["name"])
-            except:
-                name.append("None")
-            try:
-                place.append(evasa["place"])
-            except:
-                place.append("None")
-
-            for xkeys in (list(evasa.keys())):
-                xkkeys.append(xkeys)
-
-
-
-
-        self.event_id = id
-        self.event_name = name
-        self.event_num = num
-        self.event_notMatch = notMatch
-        self.event_parentId = parentId
-        self.event_team1 = team1
-        self.event_statisticsType = statisticsType
-        self.event_kind = kind
-        self.event_rootKind = rootKind
-        self.event_place = place
-        self.event_priority = priority
-        self.event_specialTableId = specialTableId
-        self.event_sportId = sportId
-        self.event_team2 = team2
-        self.event_team1Id = team1Id
-        self.event_startTime = startTime
-        self.event_level = level
-        self.event_tv = tv
-        self.event_team2Id = team2Id
-        self.event_sortOrder = sortOrder
-        self.event_info = info
-        self.event_state = state
-
-
+        for event in events_data:
+            self.event_sportId.append(_optional(event, "sportId"))
+            self.event_id.append(_optional(event, "id"))
+            self.event_state.append(_optional(event, "state"))
+            self.event_parentId.append(_optional(event, "parentId"))
+            self.event_tv.append(_optional(event, "tv"))
+            self.event_team1Id.append(_optional(event, "team1Id"))
+            self.event_sortOrder.append(_optional(event, "sortOrder"))
+            self.event_info.append(_optional(event, "info"))
+            self.event_notMatch.append(_optional(event, "notMatch"))
+            self.event_statisticsType.append(_optional(event, "statisticsType"))
+            self.event_priority.append(_optional(event, "priority"))
+            self.event_team2.append(_optional(event, "team2"))
+            self.event_startTime.append(_optional(event, "startTime"))
+            self.event_num.append(_optional(event, "num"))
+            self.event_level.append(_optional(event, "level"))
+            self.event_kind.append(_optional(event, "kind"))
+            self.event_rootKind.append(_optional(event, "rootKind"))
+            self.event_team1.append(_optional(event, "team1"))
+            self.event_specialTableId.append(_optional(event, "specialTableId"))
+            self.event_team2Id.append(_optional(event, "team2Id"))
+            self.event_name.append(_optional(event, "name"))
+            self.event_place.append(_optional(event, "place"))
 
 
 class Sel_play:
-    from apifb import Sports, Event
+    index_tip: set[int]
+    str_ids: list[Any]
+    event_idos: list[Any]
 
+    def sport_name(self, spr_name: str):
+        spr = Sports()
 
-    evD=Event()
+        indices: list[int] = []
+        sport_ids: list[Any] = []
 
-    index_tip =[]
-    str_ids=''
-    event_idos=''
+        for i, sport_name in enumerate(spr.sports_name_tip):
+            if sport_name == spr_name:
+                indices.append(i)
+                sport_ids.append(spr.sports_ids[i])
 
-
-    def sport_name(self,spr_name):
-        from apifb import Sports, Event
-
-
-        ind=[]
-        id_spr=[]
-        spr= Sports()
-
-        n=0
-        for spr_nam in spr.sports_name_tip:
-            n+=1
-            if spr_nam==spr_name:
-
-                india=n-1
-                ind.append(india)
-                id_spr.append(spr.sports_ids[india])
-        self.index_tip=set(ind)
-        self.str_ids=id_spr
-
-
-
+        self.index_tip = set(indices)
+        self.str_ids = sport_ids
 
     def __init__(self, spr_name):
         from classy import Tims
-        from apifb import Sports, Event
-        from datetime import datetime
-        t_nw=Tims().ts_nw
+
+        t_nw = Tims().ts_nw
         self.sport_name(spr_name)
 
+        events = Event()
+        id_ev: list[Any] = []
+        for i, start_time in enumerate(events.event_startTime):
+            if start_time < t_nw:
+                id_ev.append(events.event_sportId[i])
 
-
-
-        strTime=self.evD.event_startTime
-        n=0
-        id_ev=[]
-        for strTims in strTime:
-
-            n+=1
-
-            if strTims<t_nw:
-
-                ev_id=(self.evD.event_sportId[n-1])
-                id_ev.append(ev_id)
-        self.event_idos=id_ev
-
+        self.event_idos = id_ev
 
 
 class CustomFac:
-    custom_e=''
-    custom_all=''
-
-
-
+    custom_e: list[Any]
+    custom_all: list[Any]
 
     def __init__(self):
         from classy import Jsn_txt
-        categ = 'customFactors'
 
-        custF = Jsn_txt(categ=categ)
-        cust_e=[]
-        cust_all=[]
-        for custom in custF.cate:
-            cust_e.append(custom['e'])
-            cust_all.append(custom)
+        custom_factors = Jsn_txt(categ="customFactors").cate
+        self.custom_e = []
+        self.custom_all = []
 
-
-        self.custom_e=cust_e
-        self.custom_all=cust_all
-
-
-
-
-
+        for custom in custom_factors:
+            self.custom_e.append(custom["e"])
+            self.custom_all.append(custom)
 
 
 class Sob_live:
-    live_sb = []
-    custom_all=[]
-    index_event=[]
-    sport_id=[]
+    live_sb: list[Any]
+    custom_all: list[Any]
+    index_event: list[int]
+    sport_id: list[Any]
 
     def __init__(self):
-        from apifb import Event,CustomFac
-        a=Event()
-        cs=CustomFac()
+        events = Event()
+        custom_factors = CustomFac()
 
+        self.live_sb = []
+        self.custom_all = []
+        self.index_event = []
+        self.sport_id = []
 
-        n=-1
-        for lv in a.event_place:
-            n+=1
-            if lv=='live':
+        for i, place in enumerate(events.event_place):
+            if place == "live":
+                self.live_sb.append(events.event_id[i])
+                self.index_event.append(i)
+                self.sport_id.append(events.event_sportId[i])
 
-                self.live_sb.append(a.event_id[n])
-                self.index_event.append(n)
-                self.sport_id.append(a.event_sportId[n])
-
-
-        for fac in self.live_sb:
+        for event_id in self.live_sb:
             try:
-              index_fac=(cs.custom_e.index(fac))
-              self.custom_all.append(cs.custom_all[index_fac])
-            except:
-                pass
-
-
+                idx = custom_factors.custom_e.index(event_id)
+                self.custom_all.append(custom_factors.custom_all[idx])
+            except ValueError:
+                continue
 
 
 class Name_sl:
-    sport_id=[]
+    sport_id: list[Any]
 
-
-    def __init__(self,name_sob):
-
-        from apifb import Sob_live, Sports
-
-        sl=Sob_live()
+    def __init__(self, name_sob):
+        sl = Sob_live()
         sp = Sports()
-        n=-1
-        for xname in sp.sports_name:
-            n+=1
-            name = (str(xname).split('.'))[0]
+        self.sport_id = []
 
-            if name == name_sob:
-                self.sport_id.append(sp.sports_ids[n])
+        for i, sport_name in enumerate(sp.sports_name):
+            if str(sport_name).split(".")[0] == name_sob:
+                self.sport_id.append(sp.sports_ids[i])
 
         for sport in self.sport_id:
             try:
                 print(sl.sport_id.index(sport))
-            except:
-                print('ошибка')
-
-
-
-
-
-
-
-
-
-
-
+            except ValueError:
+                print("ошибка")
