@@ -2,12 +2,18 @@
 
 from __future__ import annotations
 
+import os
+
 from pymongo import MongoClient
+
+
+MONGO_HOST = os.environ.get("MONGO_HOST", "localhost")
+MONGO_PORT = int(os.environ.get("MONGO_PORT", "37017"))
 
 
 def conn_mongo(name_bd):
     """Подключение к базе данных."""
-    client = MongoClient("localhost", 37017)
+    client = MongoClient(MONGO_HOST, MONGO_PORT)
     return client[name_bd]
 
 
